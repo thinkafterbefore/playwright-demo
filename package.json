@@ -6,7 +6,8 @@
   "scripts": {
     "start": "grunt dev && node index.js",
     "cy:open": "npx cypres open",
-    "pw:e2e": "playwright test"
+    "e2e:local": "playwright test",
+    "e2e:remote": "PLAYWRIGHT_DASHBOARD_KEY=dd96e952ac774309fb73bed02bc5aba96d45dd19 npx playwright test --reporter playwright-dashboard"
   },
   "browser": {
     "vue": "vue/dist/vue.common.js"
@@ -50,6 +51,7 @@
     "require-uncached": "^2.0.0",
     "sass": "^1.26.8",
     "sendmail": "^1.6.1",
+    "sinon": "^12.0.1",
     "socket.io": "^2.3.0",
     "typescript": "^4.0.2",
     "vue": "^2.6.11",
@@ -58,7 +60,9 @@
     "vue-shortkey": "^3.1.7",
     "vue-socket.io-extended": "^4.0.4",
     "vue2-dropzone": "^3.6.0",
-    "vuedraggable": "^2.23.2",
-    "sinon": "^12.0.1"
+    "vuedraggable": "^2.23.2"
+  },
+  "dependencies": {
+    "playwright-dashboard": "^0.0.3"
   }
 }

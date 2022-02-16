@@ -1,39 +1,35 @@
 import { PlaywrightTestConfig, devices } from "@playwright/test";
 import path from "path";
 import { playwrightCustomMatchers } from "./playwright-custom-matchers";
-require('dotenv').config({ path: './playwright/.env' });
+require("dotenv").config({ path: "./playwright/.env" });
 
 // Reference: https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
   timeout: 30 * 1000,
   testDir: path.join(__dirname, "playwright"),
-  retries: process.env.CI ? 2 : 0,
+  retries: 2,
   forbidOnly: !!process.env.CI,
   outputDir: "playwright/test-results/",
-  reporter: process.env.CI ? [ ['html', { outputFolder: 'playwright/test-report/' }], ['junit', { outputFile: 'results.xml' }] ] : "list",
-  workers: process.env.CI ? 2 : undefined,
+  reporter: [["html", { outputFolder: "playwright/test-report/" }]],
+  workers: 2,
 
   // Run your local dev server before starting the tests:
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
   webServer: {
     command: "npm run start",
     port: 3000,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI
   },
 
   use: {
-    contextOptions: {
-      ignoreHTTPSErrors: true,
-    },
+    contextOptions: { ignoreHTTPSErrors: true },
     baseURL: process.env.BASE_URL || "http://localhost:3000",
     headless: true,
-    trace: "retain-on-failure",
-    video: "retain-on-failure",
-    screenshot: "only-on-failure",
-    httpCredentials: {
-      username: "admin",
-      password: "admin",
-    },
+    trace: "on",
+    video: "on",
+    screenshot: "on",
+
+    httpCredentials: { username: "admin", password: "admin" }
   },
 
   projects: [
@@ -41,35 +37,14 @@ const config: PlaywrightTestConfig = {
       name: "Desktop Chrome",
       use: {
         ...devices["Desktop Chrome"],
-        viewport: {
-          width: 1920,
-          height: 1080
-        }
-      },
+        viewport: { width: 1920, height: 1080 }
+      }
     },
-    // {
-    //   name: "Desktop Firefox",
-    //   use: {
-    //     ...devices["Desktop Firefox"],
-    //   },
-    // },
     {
       name: "Desktop Safari",
-      use: {
-        ...devices["Desktop Safari"],
-      },
-    },
-    // {
-    //   name: "Mobile Chrome",
-    //   use: {
-    //     ...devices["Pixel 5"],
-    //   },
-    // },
-    // {
-    //   name: "Mobile Safari",
-    //   use: devices["iPhone 12"],
-    // },
-  ],
+      use: { ...devices["Desktop Safari"] }
+    }
+  ]
 };
 
 playwrightCustomMatchers();
