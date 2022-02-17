@@ -63,6 +63,6 @@
     "vuedraggable": "^2.23.2"
   },
   "dependencies": {
-    "playwright-dashboard": "^0.0.3"
+    "playwright-dashboard": "^0.0.5"
   }
 }
