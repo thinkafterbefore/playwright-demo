@@ -7,7 +7,8 @@
     "start": "grunt dev && node index.js",
     "cy:open": "npx cypres open",
     "e2e:local": "playwright test",
-    "e2e:remote": "PLAYWRIGHT_DASHBOARD_KEY=dd96e952ac774309fb73bed02bc5aba96d45dd19 npx playwright test --reporter playwright-dashboard"
+    "e2e:remote": "PLAYWRIGHT_DASHBOARD_KEY=48162c4f30640e5c30050f8fc7752b5f5eed0a96 npx playwright test --reporter playwright-dashboard",
+    "deploy": "date >> test && git commit -am'Update date file' && git push origin master"
   },
   "browser": {
     "vue": "vue/dist/vue.common.js"
