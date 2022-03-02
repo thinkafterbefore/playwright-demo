@@ -17,13 +17,14 @@ test.afterEach(async ({ page }) => {
   await deleteBoard(page, board.id);
 });
 
-test("User can add list to a board", async () => {
+test("User can add list to a board", async ({ page }) => {
   await boardPage.addListToBoard("First list");
 
   await expect(boardPage.listName).toBeVisible();
   await expect(boardPage.listName).toHaveCount(1);
 
   await boardPage.addListToBoard("Second list");
+  expect(await page.screenshot()).toMatchSnapshot("landing.png");
 
   await expect(boardPage.listName.last()).toBeVisible();
   await expect(boardPage.listName).toHaveCount(2);
@@ -44,15 +45,24 @@ test("User can add tasks to list", async ({ page }) => {
   await expect(boardPage.task.last()).toContainText("Second task");
 });
 
-test("User can drag and drop lists to move them", async ({ page, browserName }) => {
-  test.skip(browserName === 'webkit', 'Test is flaky on Safari browser');
+test("User can drag and drop lists to move them", async ({
+  page,
+  browserName
+}) => {
+  test.skip(browserName === "webkit", "Test is flaky on Safari browser");
 
   await addListToBoardAPI(page, board.id, "First list");
   await addListToBoardAPI(page, board.id, "Second list");
 
-  await page.dragAndDrop('[data-cy="list-name"]', '[data-cy="list-name"] >> nth=-1');
+  await page.dragAndDrop(
+    '[data-cy="list-name"]',
+    '[data-cy="list-name"] >> nth=-1'
+  );
 
-  const [response] = await Promise.all([page.waitForResponse("**/api/boards/**"), page.reload()]);
+  const [response] = await Promise.all([
+    page.waitForResponse("**/api/boards/**"),
+    page.reload()
+  ]);
   const boards = await response.json();
 
   await expect(boards.lists[0].title).toBe("Second list");
@@ -60,7 +70,7 @@ test("User can drag and drop lists to move them", async ({ page, browserName }) 
 });
 
 test("User sees an error when there is network error", async ({ page }) => {
-  await page.route("**/api/lists", (route) => route.abort());
+  await page.route("**/api/lists", route => route.abort());
 
   await boardPage.addListToBoard("Fail list");
 
