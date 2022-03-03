@@ -7,7 +7,8 @@
     "start": "grunt dev && node index.js",
     "cy:open": "npx cypres open",
     "e2e:local": "playwright test",
-    "e2e:remote": "PLAYWRIGHT_DASHBOARD_KEY=48162c4f30640e5c30050f8fc7752b5f5eed0a96 npx playwright test --reporter playwright-dashboard",
+    "e2e:remote": "PLAYWRIGHT_DASHBOARD_KEY=b4002d0c5db6ed76529f4739d6c0e2f10d46ce95 npx playwright test --reporter playwright-dashboard",
+    "update_snapshots": "PLAYWRIGHT_DASHBOARD_KEY=48162c4f30640e5c30050f8fc7752b5f5eed0a96 npx playwright test --update-snapshots --reporter playwright-dashboard",
     "deploy": "date >> test && git commit -am'Update date file' && git push origin master"
   },
   "browser": {
